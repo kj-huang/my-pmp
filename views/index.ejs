@@ -18,137 +18,118 @@
     <link href="/css/bootstrap.min.css" rel="stylesheet" />
     <!-- Material Design Bootstrap -->
     <link href="/css/mdb.min.css" rel="stylesheet" />
+    <style>
+      .card-wrapper{
+        height: 500px !important;
+      }
+      .back .card-body div .row{
+        padding-top: unset;
+        padding-bottom: unset;
+      }
+    </style>
   </head>
 
   <body class="container">
-    <div class="card panels-card">
-      <div class="rounded-top grey lighten-2 dark-grey-text">
-        <ul class="list-inline float-right my-0 py-1 pr-3">
-          <li class="list-inline-item">
-            <i class="fab fa-facebook" aria-hidden="true"></i>
-          </li>
-          <li class="list-inline-item">
-            <i class="fab fa-twitter" aria-hidden="true"></i>
-          </li>
-          <li class="list-inline-item">
-            <i class="fab fa-instagram" aria-hidden="true"></i>
-          </li>
-        </ul>
+      <div class="row">
+        <div class="col-auto">
+            <a type="button" class="btn btn-primary" href="/">下一個</a>
+        </div>
       </div>
-
-      <!--Navbar-->
-      <nav
-        class="navbar navbar-expand-lg navbar-dark grey lighten-5 d-flex justify-content-between z-depth-1-bottom"
-      >
-        <div>
-          <ul class="list-inline my-2 py-1 dark-grey-text">
-            <li class="list-inline-item">
-              <i class="fas fa-bars" aria-hidden="true"></i>
-            </li>
-            <li class="list-inline-item font-weight-bold text-uppercase">
-              Developing
-            </li>
-          </ul>
-        </div>
-
-        <div>
-          <ul class="list-inline my-2 py-1 dark-grey-text">
-            <li class="list-inline-item">
-              <i class="fas fa-search" aria-hidden="true"></i>
-              <i class="fas fa-ellipsis-v pl-3" aria-hidden="true"></i>
-            </li>
-          </ul>
-        </div>
-      </nav>
-      <!--/.Navbar-->
-
       <div class="card-body grey lighten-5 rounded-bottom">
-        <!-- Grid row -->
-        <div class="row">
-          <!-- Grid column -->
-          <% knowledges.forEach(function(knowledge) { %>
-          <div class="col-12 p-1">
-            <!-- Rotating card -->
-            <div class="card-wrapper card-action">
-              <div id="card-<%= knowledge.id%>" class="card card-rotating text-center">
-                <!-- Front Side -->
-                <div class="face front">
-                  <!-- Content -->
-                  <div class="card-body">
-                    <p class="font-weight-bold text-uppercase pink-text mb-3">
-                      <%= knowledge.process%>
-                    </p>
-                    <h3 class="font-weight-bold mb-3 pb-1"><%= knowledge.zh_sub_process%></h3>
-                    <hr />
-                    <p>
-                      <%= knowledge.sentence%>
-                  </p>
-                    <!-- Triggering button -->
-                    <a
-                      class="rotate-btn btn-floating btn-pink"
-                      data-card="card-<%= knowledge.id%>"
-                      ><i class="fas fa-redo-alt"></i> Click here to rotate</a
-                    >
-                  </div>
-                </div>
-                <!-- Front Side -->
-
-                <!-- Back Side -->
-                <div class="face back">
-                  <div class="card-body"  align="left">
+          <!-- Grid row -->
+          <div class="row">
+            <!-- Grid column -->
+            <% knowledges.forEach(function(knowledge) { %>
+            <div class="col-12 p-1">
+              <!-- Rotating card -->
+              <div class="card-wrapper card-action">
+                <div id="card-<%= knowledge.id%>" class="card card-rotating text-center">
+                  <!-- Front Side -->
+                  <div class="face front">
+                    <div class="card-up">
+                      <img  class="card-img-top" src="https://mdbootstrap.com/img/Photos/Others/images/18.jpg" alt="Image with a photo of clouds.">
+                    </div>
+  
+                    <div class="avatar mx-auto white">
+                      <img src="https://mdbootstrap.com/img/Photos/Avatars/img%20(21).jpg" class="rounded-circle" alt="Sample avatar image.">
+                    </div>
+  
                     <!-- Content -->
-                    <h4 class="font-weight-bold">ITTO</h4>
-                    <hr />
-                    <h6>Input</h6>
-                    <div>
+                    <div class="card-body">
+                      <p class="font-weight-bold text-uppercase pink-text mb-3">
+                        <%= knowledge.process%>
+                      </p>
+                      <h3 class="font-weight-bold mb-3 pb-1"><%= knowledge.zh_sub_process%></h3>
+                      <hr />
+                      <p>
+                        <%= knowledge.sentence%>
+                    </p>
+                      <!-- Triggering button -->
+                      <a
+                        class="rotate-btn btn-floating btn-pink"
+                        data-card="card-<%= knowledge.id%>"
+                        ><i class="fas fa-redo-alt"></i> Click here to rotate</a
+                      >
+                    </div>
+                  </div>
+                  <!-- Front Side -->
+  
+                  <!-- Back Side -->
+                  <div class="face back">
+                    <div class="card-body"  align="left">
+                      <!-- Content -->
+                      <h4 class="font-weight-bold">ITTO</h4>
+                      <hr />
+                      <h6>Input</h6>
+                      <div>
+                        <div class="row">
+                            <%  
+                            if(knowledge.input.length  != 0 )
+                                knowledge.input.forEach(function(key, index) {
+                               %>
+                              <div class="col-md-3 col-6">
+                                  <p>
+                                    <a href="#" class="material-tooltip-main" data-toggle="tooltip" title="<%= key %>"><%= index+1 %>.<%= key %></a>
+                                  </p>
+                              </div>
+                            <% }) %>
+                        </div>
+                       
+                      </div>     
+                      <h6>T&T</h6>
                       <div class="row">
-                          <%  
-                          if(Object.keys(knowledge.input).length  != 0 )
-                            Object.keys(knowledge.input).forEach(function(key, index) {
-                             %>
+                          <%  if(knowledge.tt.length   != 0 ) 
+                            knowledge.tt.forEach(function(key, index) { %>
                             <div class="col-md-3 col-6">
-                                <p>
-                                  <a href="#" class="material-tooltip-main" data-toggle="tooltip" title="<%= knowledge.input[key] %>"><%= index+1 %>.<%= key %></a>
-                                </p>
+                                <p><a href="#" class="material-tooltip-main" data-toggle="tooltip" title="<%= key %>"><%= index+1 %>.<%= key %></a>
+                                </p></div>
+                          <% }) %>
+                      </div>
+                      
+                      <h6>Output</h6>
+                      <div class="row">
+                          <% if(knowledge.output.length != 0 )
+                          knowledge.output.forEach(function(key, index) { %>
+                            <div class="col-md-3 col-6">
+                              <p><a href="#" class="material-tooltip-main" data-toggle="tooltip" title="<%= key %>"><%= index+1 %>.<%= key %></a>
+                              </p>                              
                             </div>
                           <% }) %>
                       </div>
-                     
-                    </div>     
-                    <h6>T&T</h6>
-                    <div class="row">
-                        <%  if(Object.keys(knowledge.techandtool).length   != 0 ) 
-                          Object.keys(knowledge.techandtool).forEach(function(key, index) { %>
-                          <div class="col-md-3 col-6">
-                              <p><a href="#" class="material-tooltip-main" data-toggle="tooltip" title="<%= knowledge.techandtool[key] %>"><%= index+1 %>.<%= key %></a>
-                              </p></div>
-                        <% }) %>
+                      <hr />
+                      <a class="rotate-btn" data-card="card-<%= knowledge.id%>" href="/"><i class="fas fa-undo"></i> Click here to get next</a>
                     </div>
-                    
-                    <h6>Output</h6>
-                    <div class="row">
-                        <% if(Object.keys(knowledge.output).length != 0 )
-                        Object.keys(knowledge.output).forEach(function(key, index) { %>
-                          <div class="col-md-3 col-6">
-                            <p><a href="#" class="material-tooltip-main" data-toggle="tooltip" title="<%= knowledge.output[key] %>"><%= index+1 %>.<%= key %></a>
-                            </p>                              
-                          </div>
-                        <% }) %>
-                    </div>
-                    <hr />
-                    <a class="rotate-btn" data-card="card-<%= knowledge.id%>"><i class="fas fa-undo"></i> Click here to rotate back</a>
                   </div>
+                  <!-- Back Side -->
                 </div>
-                <!-- Back Side -->
               </div>
+              <!-- Rotating card -->
             </div>
-            <!-- Rotating card -->
-          </div>
-          <!-- Grid column -->
-          <% }) %>
-
+            <!-- Grid column -->
+            <% }) %>
+  
+        </div>
       </div>
-    </div>
 
     <!-- JQuery -->
     <script type="text/javascript" src="/js/jquery-3.4.1.min.js"></script>
@@ -164,28 +145,5 @@
         $('[data-toggle="tooltip"]').tooltip()
       })
     </script>
-
-
-
-    <!-- <script src="/lib/underscore-1.4.4.min.js"></script>
-    <script src="/lib/angular/angular.js"></script>
-    <script src="/lib/angular/angular-resource.js"></script>
-    <script src="/lib/angular/angular-route.js"></script> -->
-    <!-- <script>
-      let app = angular.module("MyPMP", ['ngResource']);
-
-      app.controller("KnowledgeController", function($scope, data) {
-        $scope.knowledges = data.getAllEvents();
-      });
-
-      app.factory("data", function($resource) {
-        let resource = $resource("/getAllData");
-        return {
-          getAllEvents: function() {
-            return resource.query();
-          }
-        };
-      });
-    </script> -->
   </body>
 </html>
