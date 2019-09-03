@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="mypmp">
   <head>
     <meta charset="utf-8" />
     <meta
@@ -27,12 +27,39 @@
         padding-bottom: unset;
       }
     </style>
+    <script src="/lib/underscore-1.4.4.min.js"></script>
+    <script src="/lib/angular/angular.js"></script>
+    <script src="/lib/angular/angular-resource.js"></script>
+    <script src="/lib/angular/angular-route.js"></script>
+    <script>
+      let app = angular.module("mypmp", ['ngResource']);
+
+      app.controller("KnowledgeController", function($scope, $http) {
+        $scope.data = [];
+        let cache;
+        $http({
+          method: 'GET',
+          url: '/data'
+        }).
+        success(function (data, status, headers, config) {
+          cache = data.sort( () => Math.random() - 0.5);
+          $scope.data = cache[0];
+        }).
+        error(function (data, status, headers, config) {
+          $scope.name = 'Error!'
+        });
+        $scope.shuffle = function () {
+          cache.sort( () => Math.random() - 0.5);
+          $scope.data = cache[0];
+        }
+      });
+    </script>
   </head>
 
-  <body class="container">
+  <body class="container" ng-controller="KnowledgeController">
       <div class="row">
         <div class="col-auto">
-            <a type="button" class="btn btn-primary" href="/">下一個</a>
+            <button type="button" class="btn btn-primary" ng-click="shuffle()">下一個</button>
         </div>
       </div>
       <div class="card-body grey lighten-5 rounded-bottom">
@@ -57,12 +84,13 @@
                     <!-- Content -->
                     <div class="card-body">
                       <p class="font-weight-bold text-uppercase pink-text mb-3">
-                        <%= knowledge.process%>
+                          {{data.process}}
+                          {{data.ipemc}}
                       </p>
-                      <h3 class="font-weight-bold mb-3 pb-1"><%= knowledge.zh_sub_process%></h3>
+                      <h3 class="font-weight-bold mb-3 pb-1"></h3>
                       <hr />
                       <p>
-                        <%= knowledge.sentence%>
+                       
                     </p>
                       <!-- Triggering button -->
                       <a
@@ -83,41 +111,29 @@
                       <h6>Input</h6>
                       <div>
                         <div class="row">
-                            <%  
-                            if(knowledge.input.length  != 0 )
-                                knowledge.input.forEach(function(key, index) {
-                               %>
-                              <div class="col-md-3 col-6">
+                              <div class="col-md-3 col-6" ng-repeat="d in data.input">
                                   <p>
-                                    <a href="#" class="material-tooltip-main" data-toggle="tooltip" title="<%= key %>"><%= index+1 %>.<%= key %></a>
+                                    <a href="#" class="material-tooltip-main" data-toggle="tooltip" title="">{{d}}</a>
                                   </p>
                               </div>
-                            <% }) %>
                         </div>
                        
                       </div>     
                       <h6>T&T</h6>
                       <div class="row">
-                          <%  if(knowledge.tt.length   != 0 ) 
-                            knowledge.tt.forEach(function(key, index) { %>
-                            <div class="col-md-3 col-6">
-                                <p><a href="#" class="material-tooltip-main" data-toggle="tooltip" title="<%= key %>"><%= index+1 %>.<%= key %></a>
+                            <div class="col-md-3 col-6" ng-repeat="d in data.tt">
+                                <p><a href="#" class="material-tooltip-main" data-toggle="tooltip" title="">{{d}}</a>
                                 </p></div>
-                          <% }) %>
                       </div>
                       
                       <h6>Output</h6>
                       <div class="row">
-                          <% if(knowledge.output.length != 0 )
-                          knowledge.output.forEach(function(key, index) { %>
-                            <div class="col-md-3 col-6">
-                              <p><a href="#" class="material-tooltip-main" data-toggle="tooltip" title="<%= key %>"><%= index+1 %>.<%= key %></a>
-                              </p>                              
-                            </div>
-                          <% }) %>
-                      </div>
+                          <div class="col-md-3 col-6" ng-repeat="d in data.output">
+                              <p><a href="#" class="material-tooltip-main" data-toggle="tooltip" title="">{{d}}</a>
+                              </p></div>
+                    </div>
                       <hr />
-                      <a class="rotate-btn" data-card="card-<%= knowledge.id%>" href="/"><i class="fas fa-undo"></i> Click here to get next</a>
+                      <a class="rotate-btn" data-card="card-<%= knowledge.id%>" ng-click="shuffle()"><i class="fas fa-undo"></i> Click here to get next</a>
                     </div>
                   </div>
                   <!-- Back Side -->
@@ -145,5 +161,6 @@
         $('[data-toggle="tooltip"]').tooltip()
       })
     </script>
+    
   </body>
 </html>
