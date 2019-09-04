@@ -19,10 +19,10 @@
     <!-- Material Design Bootstrap -->
     <link href="/css/mdb.min.css" rel="stylesheet" />
     <style>
-      .card-wrapper{
+      .card-wrapper {
         height: 500px !important;
       }
-      .back .card-body div .row{
+      .back .card-body div .row {
         padding-top: unset;
         padding-bottom: unset;
       }
@@ -32,120 +32,171 @@
     <script src="/lib/angular/angular-resource.js"></script>
     <script src="/lib/angular/angular-route.js"></script>
     <script>
-      let app = angular.module("mypmp", ['ngResource']);
+      let app = angular.module("mypmp", ["ngResource"]);
 
       app.controller("KnowledgeController", function($scope, $http) {
         $scope.data = [];
         let cache;
         $http({
-          method: 'GET',
-          url: '/data'
-        }).
-        success(function (data, status, headers, config) {
-          cache = data.sort( () => Math.random() - 0.5);
+          method: "GET",
+          url: "/data"
+        })
+          .success(function(data, status, headers, config) {
+            cache = data.sort(() => Math.random() - 0.5);
+            $scope.data = cache[0];
+          })
+          .error(function(data, status, headers, config) {
+            $scope.name = "Error!";
+          });
+        $scope.shuffle = function() {
+          cache.sort(() => Math.random() - 0.5);
           $scope.data = cache[0];
-        }).
-        error(function (data, status, headers, config) {
-          $scope.name = 'Error!'
-        });
-        $scope.shuffle = function () {
-          cache.sort( () => Math.random() - 0.5);
-          $scope.data = cache[0];
-        }
+        };
       });
     </script>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=UA-147053694-1"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+
+      gtag("config", "UA-147053694-1");
+    </script>
+    Ｆ
   </head>
 
   <body class="container" ng-controller="KnowledgeController">
-      <div class="row">
-        <div class="col-auto">
-            <button type="button" class="btn btn-primary" ng-click="shuffle()">下一個</button>
-        </div>
+    <div class="row">
+      <div class="col-auto">
+        <button type="button" class="btn btn-primary" ng-click="shuffle()">
+          下一個
+        </button>
       </div>
-      <div class="card-body grey lighten-5 rounded-bottom">
-          <!-- Grid row -->
-          <div class="row">
-            <!-- Grid column -->
-            <% knowledges.forEach(function(knowledge) { %>
-            <div class="col-12 p-1">
-              <!-- Rotating card -->
-              <div class="card-wrapper card-action">
-                <div id="card-<%= knowledge.id%>" class="card card-rotating text-center">
-                  <!-- Front Side -->
-                  <div class="face front">
-                    <div class="card-up">
-                      <img  class="card-img-top" src="https://mdbootstrap.com/img/Photos/Others/images/18.jpg" alt="Image with a photo of clouds.">
-                    </div>
-  
-                    <div class="avatar mx-auto white">
-                      <img src="https://mdbootstrap.com/img/Photos/Avatars/img%20(21).jpg" class="rounded-circle" alt="Sample avatar image.">
-                    </div>
-  
-                    <!-- Content -->
-                    <div class="card-body">
-                      <p class="font-weight-bold text-uppercase pink-text mb-3">
-                          {{data.process}}
-                          {{data.ipemc}}
-                      </p>
-                      <h3 class="font-weight-bold mb-3 pb-1"></h3>
-                      <hr />
-                      <p>
-                       
-                    </p>
-                      <!-- Triggering button -->
-                      <a
-                        class="rotate-btn btn-floating btn-pink"
-                        data-card="card-<%= knowledge.id%>"
-                        ><i class="fas fa-redo-alt"></i> Click here to rotate</a
-                      >
-                    </div>
-                  </div>
-                  <!-- Front Side -->
-  
-                  <!-- Back Side -->
-                  <div class="face back">
-                    <div class="card-body"  align="left">
-                      <!-- Content -->
-                      <h4 class="font-weight-bold">ITTO</h4>
-                      <hr />
-                      <h6>Input</h6>
-                      <div>
-                        <div class="row">
-                              <div class="col-md-3 col-6" ng-repeat="d in data.input">
-                                  <p>
-                                    <a href="#" class="material-tooltip-main" data-toggle="tooltip" title="">{{d}}</a>
-                                  </p>
-                              </div>
-                        </div>
-                       
-                      </div>     
-                      <h6>T&T</h6>
-                      <div class="row">
-                            <div class="col-md-3 col-6" ng-repeat="d in data.tt">
-                                <p><a href="#" class="material-tooltip-main" data-toggle="tooltip" title="">{{d}}</a>
-                                </p></div>
-                      </div>
-                      
-                      <h6>Output</h6>
-                      <div class="row">
-                          <div class="col-md-3 col-6" ng-repeat="d in data.output">
-                              <p><a href="#" class="material-tooltip-main" data-toggle="tooltip" title="">{{d}}</a>
-                              </p></div>
-                    </div>
-                      <hr />
-                      <a class="rotate-btn" data-card="card-<%= knowledge.id%>" ng-click="shuffle()"><i class="fas fa-undo"></i> Click here to get next</a>
-                    </div>
-                  </div>
-                  <!-- Back Side -->
+    </div>
+    <div class="card-body grey lighten-5 rounded-bottom">
+      <!-- Grid row -->
+      <div class="row">
+        <!-- Grid column -->
+        <% knowledges.forEach(function(knowledge) { %>
+        <div class="col-12 p-1">
+          <!-- Rotating card -->
+          <div class="card-wrapper card-action">
+            <div
+              id="card-<%= knowledge.id%>"
+              class="card card-rotating text-center"
+            >
+              <!-- Front Side -->
+              <div class="face front">
+                <div class="card-up">
+                  <img
+                    class="card-img-top"
+                    src="https://mdbootstrap.com/img/Photos/Others/images/18.jpg"
+                    alt="Image with a photo of clouds."
+                  />
+                </div>
+
+                <div class="avatar mx-auto white">
+                  <img
+                    src="https://mdbootstrap.com/img/Photos/Avatars/img%20(21).jpg"
+                    class="rounded-circle"
+                    alt="Sample avatar image."
+                  />
+                </div>
+
+                <!-- Content -->
+                <div class="card-body">
+                  <p class="font-weight-bold text-uppercase pink-text mb-3">
+                    {{ data.process }}
+                    {{ data.ipemc }}
+                  </p>
+                  <h3 class="font-weight-bold mb-3 pb-1"></h3>
+                  <hr />
+                  <p></p>
+                  <!-- Triggering button -->
+                  <a
+                    class="rotate-btn btn-floating btn-pink"
+                    data-card="card-<%= knowledge.id%>"
+                    ><i class="fas fa-redo-alt"></i> Click here to rotate</a
+                  >
                 </div>
               </div>
-              <!-- Rotating card -->
+              <!-- Front Side -->
+
+              <!-- Back Side -->
+              <div class="face back">
+                <div class="card-body" align="left">
+                  <!-- Content -->
+                  <h4 class="font-weight-bold">ITTO</h4>
+                  <hr />
+                  <h6>Input</h6>
+                  <div>
+                    <div class="row">
+                      <div class="col-md-3 col-6" ng-repeat="d in data.input">
+                        <p>
+                          <a
+                            href="#"
+                            class="material-tooltip-main"
+                            data-toggle="tooltip"
+                            title=""
+                            >{{ d }}</a
+                          >
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <h6>T&T</h6>
+                  <div class="row">
+                    <div class="col-md-3 col-6" ng-repeat="d in data.tt">
+                      <p>
+                        <a
+                          href="#"
+                          class="material-tooltip-main"
+                          data-toggle="tooltip"
+                          title=""
+                          >{{ d }}</a
+                        >
+                      </p>
+                    </div>
+                  </div>
+
+                  <h6>Output</h6>
+                  <div class="row">
+                    <div class="col-md-3 col-6" ng-repeat="d in data.output">
+                      <p>
+                        <a
+                          href="#"
+                          class="material-tooltip-main"
+                          data-toggle="tooltip"
+                          title=""
+                          >{{ d }}</a
+                        >
+                      </p>
+                    </div>
+                  </div>
+                  <hr />
+                  <a
+                    class="rotate-btn"
+                    data-card="card-<%= knowledge.id%>"
+                    ng-click="shuffle()"
+                    ><i class="fas fa-undo"></i> Click here to get next</a
+                  >
+                </div>
+              </div>
+              <!-- Back Side -->
             </div>
-            <!-- Grid column -->
-            <% }) %>
-  
+          </div>
+          <!-- Rotating card -->
         </div>
+        <!-- Grid column -->
+        <% }) %>
       </div>
+    </div>
 
     <!-- JQuery -->
     <script type="text/javascript" src="/js/jquery-3.4.1.min.js"></script>
@@ -157,10 +208,9 @@
     <script type="text/javascript" src="/js/mdb.min.js"></script>
 
     <script>
-      $(function () {
-        $('[data-toggle="tooltip"]').tooltip()
-      })
+      $(function() {
+        $('[data-toggle="tooltip"]').tooltip();
+      });
     </script>
-    
   </body>
 </html>
