@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <meta http-equiv="x-ua-compatible" content="ie=edge" />
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" />
+
+  <!-- Bootstrap core CSS -->
+  <link href="/css/bootstrap.min.css" rel="stylesheet" />
+  <!-- Material Design Bootstrap -->
+  <link href="/css/mdb.min.css" rel="stylesheet" />
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-147053694-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag("js", new Date());
+
+    gtag("config", "UA-147053694-1");
+  </script>
+
+  <style>
+    .card-body {
+      margin: 0 auto;
+    }
+
+    .question-form {
+      padding-top: 10px;
+    }
+
+    .form-check [type="checkbox"][class*='filled-in']:checked+label:after {
+      border-color: #2B9EB3;
+      background-color: #2B9EB3;
+    }
+
+    .checkbox-correct-filled [type="checkbox"][class*='filled-in']:checked+label:after {
+      border-color: #7CE577;
+      background-color: #7CE577;
+    }
+    
+    .checkbox-wrong-filled [type="checkbox"][class*='filled-in']:checked+label:after {
+      border-color: #B8336A;
+      background-color: #B8336A;
+    }
+  </style>
+
+</head>
+
+<body>
+  <div class="container">
+    <div class="row">
+      <div class="card">
+        <% for(var i = 0; i < question.length; i++){ %>
+        <h5 class="card-header info-color white-text text-center py-4">
+          <strong><%= question[i].id %>、<%= question[i].question %></strong>
+        </h5>
+
+        <!--Card content-->
+        <div class="card-body px-lg-5 pt-0">
+          <div class="question-form">
+              <% for(var j = 0; j < question[i].selections.length; j++) { %>
+                <div class="form-check">
+                  <input id="<%= question[i].selections[j].name + j %>" class="form-check-input filled-in" type="checkbox"
+                    value="<%= question[i].selections[j].answer %>" name="<%= question[i].id %>">
+                  <label class="form-check-label"
+                    for="<%= question[i].selections[j].name + j %>"><%= question[i].selections[j].name %></label>
+                </div>
+                <% } %>
+      
+                <% if(i === question.length - 1) { %>
+                  <button id="finish" type="button" class="btn btn-success">完成測驗</button>
+                <% } else { %>
+                  <button id="continue" type="button" class="btn btn-primary">下一題</button>
+                <% } %>
+          </div>
+        </div>
+        <% } %>
+      </div>
+    </div>
+  </div>
+
+  <!-- JQuery -->
+  <script type="text/javascript" src="/js/jquery-3.4.1.min.js"></script>
+  <!-- Bootstrap tooltips -->
+  <script type="text/javascript" src="/js/popper.min.js"></script>
+  <!-- Bootstrap core JavaScript -->
+  <script type="text/javascript" src="/js/bootstrap.min.js"></script>
+  <!-- MDB core JavaScript -->
+  <script type="text/javascript" src="/js/mdb.min.js"></script>
+
+
+  <script>
+      $(document).ready(() => {
+        $("#finish").click(() => {
+            let selected_ans = [];
+            let wrong_ans = [];
+            let ans = [];
+            $('input[type="checkbox"]').each(function(){
+              if(this.value === "true"){
+                ans.push(this.id.replace(/[0-9]/g, ''))
+              }
+              if(this.checked) {
+                if(this.value === "false"){
+                  wrong_ans.push(this.id.replace(/[0-9]/g, ''));
+                  $(this).parent('div').addClass('checkbox-wrong-filled');
+                } else {
+                  selected_ans.push(this.id.replace(/[0-9]/g, ''));
+                  $(this).parent('div').addClass('checkbox-correct-filled');
+                }
+              }
+            })
+            showResult (selected_ans, wrong_ans, ans)
+        })
+      })
+
+      function showResult (selected_ans, wrong_ans, ans) {
+        let shouldBeSelected = ans.filter(f => !selected_ans.includes(f));
+
+
+        console.log(selected_ans, wrong_ans, ans, shouldBeSelected)
+      }
+      
+    </script>
+
+</body>
+
+</html>
