@@ -45,10 +45,15 @@
       border-color: #7CE577;
       background-color: #7CE577;
     }
-    
+
     .checkbox-wrong-filled [type="checkbox"][class*='filled-in']:checked+label:after {
       border-color: #B8336A;
       background-color: #B8336A;
+    }
+
+    .checkbox-shouldBechecked-filled [type="checkbox"][class*='filled-in']:checked+label:after {
+      border-color: #FAA381;
+      background-color: #FAA381;
     }
   </style>
 
@@ -66,23 +71,39 @@
         <!--Card content-->
         <div class="card-body px-lg-5 pt-0">
           <div class="question-form">
-              <% for(var j = 0; j < question[i].selections.length; j++) { %>
-                <div class="form-check">
-                  <input id="<%= question[i].selections[j].name + j %>" class="form-check-input filled-in" type="checkbox"
-                    value="<%= question[i].selections[j].answer %>" name="<%= question[i].id %>">
-                  <label class="form-check-label"
-                    for="<%= question[i].selections[j].name + j %>"><%= question[i].selections[j].name %></label>
-                </div>
-                <% } %>
-      
-                <% if(i === question.length - 1) { %>
-                  <button id="finish" type="button" class="btn btn-success">完成測驗</button>
-                <% } else { %>
-                  <button id="continue" type="button" class="btn btn-primary">下一題</button>
-                <% } %>
+            <% for(var j = 0; j < question[i].selections.length; j++) { %>
+            <div class="form-check">
+              <input id="<%= question[i].selections[j].name + j %>" class="form-check-input filled-in" type="checkbox"
+                value="<%= question[i].selections[j].answer %>" name="<%= question[i].id %>">
+              <label class="form-check-label"
+                for="<%= question[i].selections[j].name + j %>"><%= question[i].selections[j].name %></label>
+            </div>
+            <% } %>
+
+            <% if(i === question.length - 1) { %>
+            <button id="finish" type="button" class="btn btn-success">完成測驗</button>
+            <% } else { %>
+            <button id="continue" type="button" class="btn btn-primary">下一題</button>
+            <% } %>
           </div>
         </div>
         <% } %>
+
+        <hr>
+        <div class="form-check checkbox-correct-filled">
+          <input class="form-check-input filled-in" type="checkbox" checked disabled>
+          <label class="form-check-label" for="">正確答案</label>
+        </div>
+
+        <div class="form-check checkbox-wrong-filled">
+          <input class="form-check-input filled-in" type="checkbox"  checked disabled>
+          <label class="form-check-label" for="">選錯的答案</label>
+        </div>
+
+        <div class="form-check checkbox-shouldBechecked-filled">
+          <input class="form-check-input filled-in" type="checkbox"  checked disabled>
+          <label class="form-check-label" for="">應選而未選的選項</label>
+        </div>
       </div>
     </div>
   </div>
@@ -98,39 +119,44 @@
 
 
   <script>
-      $(document).ready(() => {
-        $("#finish").click(() => {
-            let selected_ans = [];
-            let wrong_ans = [];
-            let ans = [];
-            $('input[type="checkbox"]').each(function(){
-              if(this.value === "true"){
-                ans.push(this.id.replace(/[0-9]/g, ''))
-              }
-              if(this.checked) {
-                if(this.value === "false"){
-                  wrong_ans.push(this.id.replace(/[0-9]/g, ''));
-                  $(this).parent('div').addClass('checkbox-wrong-filled');
-                } else {
-                  selected_ans.push(this.id.replace(/[0-9]/g, ''));
-                  $(this).parent('div').addClass('checkbox-correct-filled');
-                }
-              }
-              
-              this.disabled = true;
-            })
-            showResult (selected_ans, wrong_ans, ans)
+    $(document).ready(() => {
+      $("#finish").click(() => {
+        let selected_ans = [];
+        let wrong_ans = [];
+        let ans = [];
+        $('input[type="checkbox"]').each(function () {
+          if (this.value === "true") {
+            ans.push(this.id.replace(/[0-9]/g, ''))
+          }
+          if (this.checked) {
+            if (this.value === "false") {
+              wrong_ans.push(this.id.replace(/[0-9]/g, ''));
+              $(this).parent('div').addClass('checkbox-wrong-filled');
+            } else {
+              selected_ans.push(this.id.replace(/[0-9]/g, ''));
+              $(this).parent('div').addClass('checkbox-correct-filled');
+            }
+          } else {
+            if (this.value === "true") {
+              wrong_ans.push(this.id.replace(/[0-9]/g, ''));
+              $(this).parent('div').addClass('checkbox-shouldBechecked-filled');
+              this.checked = true;
+            }
+          }
+
+          this.disabled = true;
         })
+        // showResult (selected_ans, wrong_ans, ans)
       })
+    })
 
-      function showResult (selected_ans, wrong_ans, ans) {
-        let shouldBeSelected = ans.filter(f => !selected_ans.includes(f));
+    function showResult(selected_ans, wrong_ans, ans) {
+      let shouldBeSelected = ans.filter(f => !selected_ans.includes(f));
 
 
-        console.log(selected_ans, wrong_ans, ans, shouldBeSelected)
-      }
-      
-    </script>
+      // console.log(selected_ans, wrong_ans, ans, shouldBeSelected)
+    }
+  </script>
 
 </body>
 
