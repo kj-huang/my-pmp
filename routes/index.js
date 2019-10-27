@@ -20,7 +20,7 @@ router.get('/question', function (req, res, next) {
 
   let count = 0;
   documents.forEach((d) => {
-    if(count < 7 && q.selections.length < 7 && q.selections.name !== d){
+    if(count < 9 && q.selections.length < 9 && q.selections.find(e => e.name !== d)){
       let o = {};
       o.name = d;
       o.answer = false;
