@@ -56,15 +56,17 @@
       background-color: #FAA381;
     }
 
-    @media (max-width:768px){
-      .container, .row{
+    @media (max-width:768px) {
+
+      .container,
+      .row {
         width: 100%;
         max-width: 100%;
         padding: 0;
         margin: 0;
       }
 
-      .row .col{
+      .row .col {
         padding: 0;
         margin: 0;
       }
@@ -73,7 +75,7 @@
         height: 100vh;
       }
 
-      .question-form{
+      .question-form {
         max-width: 300px;
         width: 300px;
       }
@@ -95,10 +97,11 @@
           <!--Card content-->
           <div class="card-body px-lg-5 pt-0">
             <div class="question-form">
+              <input id="question" value="<%= question[i].question.split(' ')[5] %>" type="hidden">
               <% for(var j = 0; j < question[i].selections.length; j++) { %>
               <div class="form-check">
-                <input id="<%= question[i].selections[j].name + j %>" class="form-check-input filled-in answer" type="checkbox"
-                  value="<%= question[i].selections[j].answer %>" name="<%= question[i].id %>">
+                <input id="<%= question[i].selections[j].name + j %>" class="form-check-input filled-in answer"
+                  type="checkbox" value="<%= question[i].selections[j].answer %>" name="<%= question[i].id %>">
                 <label class="form-check-label"
                   for="<%= question[i].selections[j].name + j %>"><%= question[i].selections[j].name %></label>
               </div>
@@ -106,11 +109,11 @@
             </div>
             <div class="actions" align="center">
               <% if(i === question.length - 1) { %>
-                <button id="finish" type="button" class="btn btn-success">點我看答案</button>
-                <button id="save" type="button" class="btn btn-info">儲存</button>
-                <% } else { %>
-                <button id="continue" type="button" class="btn btn-primary">下一題</button>
-                <% } %>
+              <button id="finish" type="button" class="btn btn-success">點我看答案</button>
+              <button id="save" type="button" class="btn btn-info">儲存</button>
+              <% } else { %>
+              <button id="continue" type="button" class="btn btn-primary">下一題</button>
+              <% } %>
             </div>
           </div>
           <% } %>
@@ -155,11 +158,10 @@
 
           <div class="row">
             <div class="col-3 text-center">
-              <img src="/images/developer.jpg" alt="IMG of Avatars"
-                class="img-fluid z-depth-1-half rounded-circle">
+              <img src="/images/developer.jpg" alt="IMG of Avatars" class="img-fluid z-depth-1-half rounded-circle">
               <div style="height: 10px"></div>
               <p class="title mb-0">Kevin</p>
-              <p class="text-muted " style="font-size: 13px">Developer<br/>Consultant</p>
+              <p class="text-muted " style="font-size: 13px">Developer<br />Consultant</p>
             </div>
 
             <div class="col-9">
@@ -173,7 +175,7 @@
 
         <!--Footer-->
         <div class="modal-footer justify-content-center">
-          <a href="/auth/google" type="button" class="btn btn-danger"><i class="fab fa-google"></i>   Google Login</a>
+          <a href="/auth/google" type="button" class="btn btn-danger"><i class="fab fa-google"></i> Google Login</a>
           <a type="button" class="btn btn-outline-info waves-effect" data-dismiss="modal">No, thanks</a>
         </div>
       </div>
@@ -200,16 +202,16 @@
       let wrong_ans = [];
       let ans = [];
 
-      if(!isLogin) $('#save').prop('disabled', true);
+      if (!isLogin) $('#save').prop('disabled', true);
       else $('#save').prop('disabled', false);
 
-      
+
 
       $("#finish").click(() => {
         let numberChecked = $('input.answer:checkbox:checked').length;
 
-        if(numberChecked <= 0){
-          alert('藥勾選！')
+        if (numberChecked <= 0) {
+          alert('要勾選！')
           return;
         }
 
@@ -237,33 +239,35 @@
         })
         // showResult (selected_ans, wrong_ans, ans)
         $("#ModalWarning").on('hidden.bs.modal', function () {});
-        
-        if(!isLogin)
+
+        if (!isLogin)
           $("#ModalWarning").modal('show');
       })
 
-      $("#save").click(function(){
+      $("#save").click(function () {
         let numberChecked = $('input.answer:checkbox:checked').length;
 
-        if(numberChecked <= 0){
-          alert('藥勾選！')
+        if (numberChecked <= 0) {
+          alert('要勾選！')
           return;
         }
 
-      $.ajax({
-        'method': "POST",
-        'url': "/save_result",
-        'data': {
-          selected_ans: selected_ans,
-          wrong_ans: wrong_ans
-        }, success: function (data) {
-          $('儲存成功！')
-        }
-    })
-    })
+        $.ajax({
+          'method': "POST",
+          'url': "/save_result",
+          'data': {
+            selected_ans: selected_ans,
+            wrong_ans: wrong_ans,
+            question: $("#question").val()
+          },
+          success: function (data) {
+            alert('儲存成功！請手動重整網站')
+          }
+        })
+      })
     })
 
-    
+
 
     function showResult(selected_ans, wrong_ans, ans) {
       let shouldBeSelected = ans.filter(f => !selected_ans.includes(f));

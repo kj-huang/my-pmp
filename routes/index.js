@@ -14,6 +14,10 @@ router.get('/data', function (req, res, next) {
   res.json(data);
 });
 
+router.get('/logs', function (req, res, next) {
+  res.render("logs");
+});
+
 router.get('/question', function (req, res, next) {
   let q = answer.sort( () => Math.random() - 0.5)[0];
   
@@ -44,10 +48,11 @@ router.get('/question', function (req, res, next) {
 router.post('/save_result', function (req, res, next) {
   console.log( req.user)
   let user_id = req.user[0].user_id;
+  let question = req.body.question;
   let selected_ans = req.body.selected_ans.filter((d) => d !== "");
   let wrong_ans = req.body.wrong_ans || [];
   console.log(user_id, JSON.stringify(selected_ans), JSON.stringify(wrong_ans))
-  result.save(user_id, JSON.stringify(selected_ans), JSON.stringify(wrong_ans)).then((r) => {  console.log(r); return res.sendStatus(200)}).catch((err) => { console.log(err); return res.sendStatus(500)});
+  result.save(user_id, question, JSON.stringify(selected_ans), JSON.stringify(wrong_ans)).then((r) => {  console.log(r); return res.sendStatus(200)}).catch((err) => { console.log(err); return res.sendStatus(500)});
 });
 
 router.get('/auth/google',
