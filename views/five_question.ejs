@@ -97,7 +97,7 @@
             <div class="question-form">
               <% for(var j = 0; j < question[i].selections.length; j++) { %>
               <div class="form-check">
-                <input id="<%= question[i].selections[j].name + j %>" class="form-check-input filled-in" type="checkbox"
+                <input id="<%= question[i].selections[j].name + j %>" class="form-check-input filled-in answer" type="checkbox"
                   value="<%= question[i].selections[j].answer %>" name="<%= question[i].id %>">
                 <label class="form-check-label"
                   for="<%= question[i].selections[j].name + j %>"><%= question[i].selections[j].name %></label>
@@ -106,7 +106,7 @@
             </div>
             <div class="actions" align="center">
               <% if(i === question.length - 1) { %>
-                <button id="finish" type="button" class="btn btn-success">完成測驗</button>
+                <button id="finish" type="button" class="btn btn-success">點我看答案</button>
                 <button id="save" type="button" class="btn btn-info">儲存</button>
                 <% } else { %>
                 <button id="continue" type="button" class="btn btn-primary">下一題</button>
@@ -195,11 +195,24 @@
 
   <script>
     $(document).ready(() => {
+      let isLogin = <%- isLogin %>;
       let selected_ans = [];
       let wrong_ans = [];
       let ans = [];
+
+      if(!isLogin) $('#save').prop('disabled', true);
+      else $('#save').prop('disabled', false);
+
+      
+
       $("#finish").click(() => {
-  
+        let numberChecked = $('input.answer:checkbox:checked').length;
+
+        if(numberChecked <= 0){
+          alert('藥勾選！')
+          return;
+        }
+
         $('input[type="checkbox"]').each(function () {
           if (this.value === "true") {
             ans.push(this.id.replace(/[0-9]/g, ''))
@@ -224,10 +237,19 @@
         })
         // showResult (selected_ans, wrong_ans, ans)
         $("#ModalWarning").on('hidden.bs.modal', function () {});
-        $("#ModalWarning").modal('show');
+        
+        if(!isLogin)
+          $("#ModalWarning").modal('show');
       })
 
       $("#save").click(function(){
+        let numberChecked = $('input.answer:checkbox:checked').length;
+
+        if(numberChecked <= 0){
+          alert('藥勾選！')
+          return;
+        }
+
       $.ajax({
         'method': "POST",
         'url': "/save_result",
@@ -235,6 +257,7 @@
           selected_ans: selected_ans,
           wrong_ans: wrong_ans
         }, success: function (data) {
+          $('儲存成功！')
         }
     })
     })

@@ -15,7 +15,6 @@ router.get('/data', function (req, res, next) {
 });
 
 router.get('/question', function (req, res, next) {
-  console.log(req.user);
   let q = answer.sort( () => Math.random() - 0.5)[0];
   
   //shuffle
@@ -33,9 +32,13 @@ router.get('/question', function (req, res, next) {
 
   q.selections.sort( () => Math.random() - 0.5);
 
-  let question = [q]
-  
-  res.render("five_question", {question: question});
+  let question = [q];
+
+  let isLogin = false;
+  if(req.user){
+    isLogin = true;
+  }
+  res.render("five_question", {question: question, isLogin: isLogin});
 });
 
 router.post('/save_result', function (req, res, next) {
