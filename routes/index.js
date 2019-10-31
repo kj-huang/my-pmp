@@ -4,6 +4,7 @@ let data = require('../data/pmp');
 let answer = require('../data/answer');
 let documents = require('../data/documents');
 let passport = require('passport');
+let result = require('../dao/result_logs');
 
 router.get('/', function (req, res, next) {
   res.render("index",{knowledges: [data[0]]});
@@ -14,6 +15,7 @@ router.get('/data', function (req, res, next) {
 });
 
 router.get('/question', function (req, res, next) {
+  console.log(req.user);
   let q = answer.sort( () => Math.random() - 0.5)[0];
   
   //shuffle
@@ -36,6 +38,15 @@ router.get('/question', function (req, res, next) {
   res.render("five_question", {question: question});
 });
 
+router.post('/save_result', function (req, res, next) {
+  console.log( req.user)
+  let user_id = req.user[0].user_id;
+  let selected_ans = req.body.selected_ans.filter((d) => d !== "");
+  let wrong_ans = req.body.wrong_ans || [];
+  console.log(user_id, JSON.stringify(selected_ans), JSON.stringify(wrong_ans))
+  result.save(user_id, JSON.stringify(selected_ans), JSON.stringify(wrong_ans)).then((r) => {  console.log(r); return res.sendStatus(200)}).catch((err) => { console.log(err); return res.sendStatus(500)});
+});
+
 router.get('/auth/google',
   passport.authenticate('google', { scope: ['email'] }));
  
@@ -43,7 +54,7 @@ router.get('/auth/google/callback',
   passport.authenticate('google', { failureRedirect: '/' }),
   function(req, res) {
     // Successful authentication, redirect home.
-    res.redirect('/');
+    res.redirect('/question');
 });
 
 module.exports = router;

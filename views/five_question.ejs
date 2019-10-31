@@ -107,6 +107,7 @@
             <div class="actions" align="center">
               <% if(i === question.length - 1) { %>
                 <button id="finish" type="button" class="btn btn-success">完成測驗</button>
+                <button id="save" type="button" class="btn btn-info">儲存</button>
                 <% } else { %>
                 <button id="continue" type="button" class="btn btn-primary">下一題</button>
                 <% } %>
@@ -162,7 +163,7 @@
             </div>
 
             <div class="col-9">
-              <p>想要儲存紀錄日後複習用嗎？</p>
+              <p>想要儲存錯誤紀錄日後複習用嗎？</p>
               <p class="card-text"><strong>請綁定 Google 帳號或登入留存您的學習紀錄！</strong></p>
             </div>
           </div>
@@ -172,7 +173,7 @@
 
         <!--Footer-->
         <div class="modal-footer justify-content-center">
-          <a href="/google/auth" type="button" class="btn btn-danger"><i class="fab fa-google"></i>   Google Login</a>
+          <a href="/auth/google" type="button" class="btn btn-danger"><i class="fab fa-google"></i>   Google Login</a>
           <a type="button" class="btn btn-outline-info waves-effect" data-dismiss="modal">No, thanks</a>
         </div>
       </div>
@@ -194,10 +195,11 @@
 
   <script>
     $(document).ready(() => {
+      let selected_ans = [];
+      let wrong_ans = [];
+      let ans = [];
       $("#finish").click(() => {
-        let selected_ans = [];
-        let wrong_ans = [];
-        let ans = [];
+  
         $('input[type="checkbox"]').each(function () {
           if (this.value === "true") {
             ans.push(this.id.replace(/[0-9]/g, ''))
@@ -224,7 +226,21 @@
         $("#ModalWarning").on('hidden.bs.modal', function () {});
         $("#ModalWarning").modal('show');
       })
+
+      $("#save").click(function(){
+      $.ajax({
+        'method': "POST",
+        'url': "/save_result",
+        'data': {
+          selected_ans: selected_ans,
+          wrong_ans: wrong_ans
+        }, success: function (data) {
+        }
     })
+    })
+    })
+
+    
 
     function showResult(selected_ans, wrong_ans, ans) {
       let shouldBeSelected = ans.filter(f => !selected_ans.includes(f));
