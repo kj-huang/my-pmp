@@ -15,7 +15,10 @@ router.get('/data', function (req, res, next) {
 });
 
 router.get('/logs', function (req, res, next) {
-  res.render("logs");
+  result.get(req.user[0].user_id).then((r)=>{
+
+    return res.render("logs", {data: r});
+  }).catch(() => {return res.sendStatus(500)})
 });
 
 router.get('/question', function (req, res, next) {
