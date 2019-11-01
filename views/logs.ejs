@@ -29,6 +29,17 @@
     </script>
 
     <style>
+        .container,
+            .row {
+                width: 100%;
+                max-width: 100%;
+                padding: 0;
+                margin: 0;
+            }
+            .row .col {
+                padding: 0;
+                margin: 0;
+            }
         @media (max-width:768px) {
 
             .container,
@@ -59,7 +70,7 @@
         <div class="row">
 
             <!--Grid column-->
-            <div class="col-md-6 mb-4">
+            <div class="col mb-4">
 
                 <!-- Card -->
                 <div class="card gradient-card">
@@ -92,7 +103,7 @@
                     <div class="card-body white animated">
                         <p class="text-muted">需要加強的 ITTO</p>
                         <% for(var i = 0; i < data.length; i++){ %>
-                        <%  if(data[i].wrong_ans != []){  %>
+                        <%  if(data[i].wrong_ans.length != 0){  %>
                         <h5 class="text-center py-4">
                             <strong><%= data[i].question %></strong>
                         </h5>
