@@ -110,7 +110,7 @@
             <div class="actions" align="center">
               <% if(i === question.length - 1) { %>
               <button id="finish" type="button" class="btn btn-success">點我看答案</button>
-              <button id="save" type="button" class="btn btn-info">儲存</button>
+              <button id="save" type="button" class="btn btn-info">儲存測驗結果</button>
               <% } else { %>
               <button id="continue" type="button" class="btn btn-primary">下一題</button>
               <% } %>
@@ -201,8 +201,8 @@
       let selected_ans = [];
       let wrong_ans = [];
       let ans = [];
-
-      if (!isLogin) $('#save').prop('disabled', true);
+      console.log(ans.length)
+      if (ans.length <= 0) $('#save').prop('disabled', true);
       else $('#save').prop('disabled', false);
 
 
@@ -236,15 +236,18 @@
           }
 
           this.disabled = true;
+          if (ans.length > 0) $('#save').prop('disabled', false);
         })
         // showResult (selected_ans, wrong_ans, ans)
         $("#ModalWarning").on('hidden.bs.modal', function () {});
 
-        if (!isLogin)
-          $("#ModalWarning").modal('show');
+        
       })
 
       $("#save").click(function () {
+        if (!isLogin)
+          $("#ModalWarning").modal('show');
+
         let numberChecked = $('input.answer:checkbox:checked').length;
 
         if (numberChecked <= 0) {
