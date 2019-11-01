@@ -54,8 +54,9 @@ router.post('/save_result', function (req, res, next) {
   let question = req.body.question;
   let selected_ans = req.body.selected_ans.filter((d) => d !== "");
   let wrong_ans = req.body.wrong_ans || [];
+  let ans = req.body.ans || [];
   console.log(user_id, JSON.stringify(selected_ans), JSON.stringify(wrong_ans))
-  result.save(user_id, question, JSON.stringify(selected_ans), JSON.stringify(wrong_ans)).then((r) => {  console.log(r); return res.sendStatus(200)}).catch((err) => { console.log(err); return res.sendStatus(500)});
+  result.save(user_id, question, JSON.stringify(selected_ans), JSON.stringify(wrong_ans), ans).then((r) => {  console.log(r); return res.sendStatus(200)}).catch((err) => { console.log(err); return res.sendStatus(500)});
 });
 
 router.get('/auth/google',
