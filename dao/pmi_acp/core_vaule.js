@@ -1,0 +1,1 @@
+module.exports = ['Individuals and Interactions', 'Processes and tools', 'Working Software', 'Comprehensive documentation', 'Contract negotiation', 'Customer Collaboration', 'Responding to Change', 'Following a plan']

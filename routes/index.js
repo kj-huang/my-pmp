@@ -6,6 +6,10 @@ router.get('/', function (req, res, next) {
   res.render("index",{knowledges: [data[0]]});
 });
 
+router.get('/home', function (req, res, next) {
+  res.render("home");
+});
+
 router.get('/data', function (req, res, next) {
   res.json(data);
 });
