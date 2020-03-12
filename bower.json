@@ -1,0 +1,25 @@
+{
+  "name": "my-pmp",
+  "description": "",
+  "main": "index.js",
+  "authors": [
+    "mybaseball52 <mybaseball52@gmail.com>"
+  ],
+  "license": "ISC",
+  "homepage": "https://github.com/mybaseball52/my-pmp",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "1.7.9",
+    "angular-resource": "^1.7.9",
+    "angular-route": "^1.7.9",
+    "angular-sanitize": "^1.7.9",
+    "angular-google-analytics": "^1.1.9"
+  }
+}
