@@ -10,6 +10,7 @@ var indexRouter = require('./routes/index');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
+app.use("/bower_components", express.static(__dirname + "/bower_components"));
 app.set('view engine', 'ejs');
 
 app.use(session({
