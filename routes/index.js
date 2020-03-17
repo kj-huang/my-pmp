@@ -10,6 +10,10 @@ router.get('/home', function (req, res, next) {
   res.render("home");
 });
 
+router.get('/account', function (req, res, next) {
+  res.render("account");
+});
+
 router.get('/data', function (req, res, next) {
   res.json(data);
 });
